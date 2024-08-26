@@ -10,13 +10,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Config {
-    static String hashFilePath;
-    static FileHashInfo fileHashInfo;
-    static Gson gson=new GsonBuilder().setPrettyPrinting().setLenient().create();
-    public static void setHashFilePath(String hashFilePathPara)throws Exception {
-        hashFilePath = hashFilePathPara;
-        if (!Files.exists(Paths.get(hashFilePath))){
-            Files.createFile(Paths.get(hashFilePath));
+    String hashFilePath;
+    FileHashInfo fileHashInfo;
+    Gson gson=new GsonBuilder().setPrettyPrinting().setLenient().create();
+    public Config(String hashFilePathPara)throws Exception {
+        this.hashFilePath = hashFilePathPara;
+        if (!Files.exists(Paths.get(this.hashFilePath))){
+            Files.createFile(Paths.get(this.hashFilePath));
             fileHashInfo=new FileHashInfo();
         }else {
             FileReader fileReader = new FileReader(hashFilePath);
@@ -27,11 +27,10 @@ public class Config {
             fileReader.close();
         }
     }
-    public static void save()throws Exception{
+    public void save()throws Exception{
         FileWriter fileWriter=new FileWriter(hashFilePath);
         gson.toJson(fileHashInfo,fileWriter);
         fileWriter.close();
-
     }
 
 }
